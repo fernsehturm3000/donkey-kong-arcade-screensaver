@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!129 &1
+PlayerSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 26
+  productGUID: 8f0d1f7227cc4adfb27b1481ae92d7db
+  companyName: Clean Room Arcade
+  productName: DK Arcade Player
+  defaultScreenWidth: 896
+  defaultScreenHeight: 1024
+  runInBackground: 1
+  captureSingleScreen: 1
+  resizableWindow: 1
+  visibleInBackground: 1
+  allowFullscreenSwitch: 0
+  fullscreenMode: 3
+  usePlayerLog: 1
+  scriptingBackend:
+    Standalone: 0
+  apiCompatibilityLevelPerPlatform:
+    Standalone: 6
+  targetArchitectures: 1
+  applicationIdentifier:
+    Standalone: com.cleanroomarcade.dk-screensaver

@@ -1,2 +1,58 @@
-# Ignore OS and editor files
+# Unity generated content
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Builds and distributable output
+[Bb]uild/
+[Bb]uilds/
+*.apk
+*.aab
+*.unitypackage
+
+# IDEs and generated project files
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.DotSettings.user
+
+# Keep authored wrapper project files
+!Wrapper/**/*.csproj
+
+# .NET output
+**/bin/
+**/obj/
+artifacts/
+
+# OS/editor noise
 .DS_Store
+Thumbs.db
+Desktop.ini
+*.tmp
+*.bak
+*.swp
+
+# Local caches and settings
+.cache/
+.local/
+.dotnet-home/
+.nuget/
+.local-appdata/
+.appdata/
+*.user.json

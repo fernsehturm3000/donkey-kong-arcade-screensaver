@@ -1,1 +1,5 @@
-No third-party notices have been added yet.
+No third-party assets, packages, recordings, or source code are vendored in this repository.
+
+The project uses Unity built-in modules and the Unity Test Framework through Unity's package registry. Their licenses are governed by the Unity terms applicable to the installing developer.
+
+The Windows wrapper targets the Microsoft .NET 8 Windows Desktop runtime. No .NET runtime binaries are committed.
