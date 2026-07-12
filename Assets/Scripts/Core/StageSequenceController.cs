@@ -1,6 +1,8 @@
 using System.Collections;
 using CleanRoomArcade.Data;
 using CleanRoomArcade.Rendering;
+using CleanRoomArcade.Intermissions;
+using CleanRoomArcade.Stages;
 using UnityEngine;
 
 namespace CleanRoomArcade.Core
@@ -15,19 +17,25 @@ namespace CleanRoomArcade.Core
         {
             settings = appSettings;
             shake = shakeController;
-            StartCoroutine(FoundationLoop());
+            StartCoroutine(VerticalSliceLoop());
         }
 
-        private IEnumerator FoundationLoop()
+        private IEnumerator VerticalSliceLoop()
         {
             while (enabled)
             {
-                var root = new GameObject("Foundation State");
-                PixelSpriteFactory.Block("Test Girder", root.transform, new Vector2(0, -70), new Vector2(190, 5), PixelPalette.Red);
-                PixelSpriteFactory.Block("Test Player", root.transform, new Vector2(-70, -60), new Vector2(8, 12), PixelPalette.Cyan, 2);
-                yield return new WaitForSeconds(settings.shortStageMode ? 1f : 3f);
-                shake.Impulse(2f, .18f);
-                Destroy(root);
+                var intermissionObject = new GameObject("Intermission - Barrel Works");
+                var intermission = intermissionObject.AddComponent<HeightIntermission>();
+                intermission.Initialize(settings, difficulty, shake);
+                yield return intermission.Execute("Barrel Works", 1);
+                Destroy(intermissionObject);
+                yield return null;
+
+                var stageObject = new GameObject("Stage - Barrel Works");
+                var stage = stageObject.AddComponent<BarrelsStage>();
+                stage.Initialize(settings, difficulty, shake);
+                yield return stage.Execute();
+                Destroy(stageObject);
                 yield return null;
                 difficulty.AdvanceLoop();
             }
