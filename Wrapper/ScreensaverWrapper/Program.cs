@@ -15,6 +15,11 @@ internal static class Program
     {
         ApplicationConfiguration.Initialize();
         var request = Parse(args);
+        if (request.Mode == LaunchMode.Configuration)
+        {
+            Application.Run(new ConfigWindow());
+            return;
+        }
         var player = Path.Combine(AppContext.BaseDirectory, PlayerExecutableName);
         if (!File.Exists(player))
         {
@@ -22,8 +27,13 @@ internal static class Program
                 "Arcade Screensaver", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
-        var arguments = request.Mode == LaunchMode.Fullscreen ? "/s" : request.Mode == LaunchMode.Preview ? "--preview-child" : "/c";
-        Process.Start(new ProcessStartInfo(player, arguments) { UseShellExecute = false, WorkingDirectory = AppContext.BaseDirectory });
+        if (request.Mode == LaunchMode.Preview)
+        {
+            PreviewHost.Run(player, request.PreviewHandle);
+            return;
+        }
+        using var process = StartPlayer(player, "/s");
+        process?.WaitForExit();
     }
 
     internal static LaunchRequest Parse(string[] args)
@@ -49,5 +59,14 @@ internal static class Program
         }
         handle = 0;
         return false;
+    }
+
+    internal static Process? StartPlayer(string player, string arguments)
+    {
+        return Process.Start(new ProcessStartInfo(player, arguments)
+        {
+            UseShellExecute = false,
+            WorkingDirectory = AppContext.BaseDirectory
+        });
     }
 }

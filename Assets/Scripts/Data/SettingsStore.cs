@@ -19,16 +19,26 @@ namespace CleanRoomArcade.Data
             try
             {
                 if (!File.Exists(SettingsPath)) return AppSettings.Defaults();
-                var settings = JsonUtility.FromJson<AppSettings>(File.ReadAllText(SettingsPath));
-                if (settings == null) return AppSettings.Defaults();
-                settings.Sanitize();
-                return settings;
+                return DeserializeOrDefault(File.ReadAllText(SettingsPath));
             }
             catch (Exception exception)
             {
                 Debug.LogWarning($"Settings were unreadable; safe defaults will be used. {exception.Message}");
                 return AppSettings.Defaults();
             }
+        }
+
+        public static AppSettings DeserializeOrDefault(string json)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(json)) return AppSettings.Defaults();
+                var settings = JsonUtility.FromJson<AppSettings>(json);
+                if (settings == null) return AppSettings.Defaults();
+                settings.Sanitize();
+                return settings;
+            }
+            catch { return AppSettings.Defaults(); }
         }
 
         public static bool TrySave(AppSettings settings, out string error)

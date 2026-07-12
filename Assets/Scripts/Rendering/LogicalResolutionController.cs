@@ -28,6 +28,7 @@ namespace CleanRoomArcade.Rendering
 
             var cameraObject = new GameObject("Logical Camera");
             cameraObject.transform.SetParent(transform, false);
+            cameraObject.transform.localPosition = new Vector3(0, 0, -10f);
             WorldCamera = cameraObject.AddComponent<Camera>();
             WorldCamera.orthographic = true;
             WorldCamera.orthographicSize = LogicalHeight * .5f;
@@ -35,8 +36,8 @@ namespace CleanRoomArcade.Rendering
             WorldCamera.clearFlags = CameraClearFlags.SolidColor;
             WorldCamera.backgroundColor = PixelPalette.Black;
             WorldCamera.targetTexture = renderTexture;
-            WorldCamera.nearClipPlane = -10f;
-            WorldCamera.farClipPlane = 10f;
+            WorldCamera.nearClipPlane = .1f;
+            WorldCamera.farClipPlane = 100f;
 
             var canvasObject = new GameObject("Integer Scaled Display");
             canvasObject.transform.SetParent(transform, false);

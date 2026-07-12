@@ -1,6 +1,7 @@
 using System;
 using CleanRoomArcade.Data;
 using CleanRoomArcade.Rendering;
+using CleanRoomArcade.UI;
 using UnityEngine;
 
 namespace CleanRoomArcade.Core
@@ -32,7 +33,10 @@ namespace CleanRoomArcade.Core
             crt.Initialize(resolution.OverlayRoot, settings.crtEnabled);
 
             gameObject.AddComponent<ScreensaverRuntime>().Initialize(launch);
-            gameObject.AddComponent<StageSequenceController>().Initialize(settings, shake);
+            if (launch.Mode == ScreensaverMode.Configuration)
+                gameObject.AddComponent<RuntimeConfigPanel>().Initialize(settings, crt, shake);
+            else
+                gameObject.AddComponent<StageSequenceController>().Initialize(settings, shake);
         }
     }
 }

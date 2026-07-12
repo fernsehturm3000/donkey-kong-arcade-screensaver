@@ -10,6 +10,7 @@ namespace CleanRoomArcade.Core
 {
     public sealed class StageSequenceController : MonoBehaviour
     {
+        public static readonly string[] StageOrder = { "Barrel Works", "Mixer Line", "Lift Junction", "Fastener Deck" };
         private AppSettings settings;
         private CameraShakeController shake;
         private readonly DifficultyController difficulty = new DifficultyController();
