@@ -102,7 +102,7 @@ The world camera always renders to a 224×256 point-filtered texture. The presen
 - Artwork, animation, and sound are intentionally compact procedural placeholders; no audio is included.
 - Preview embedding is Windows-only and depends on Unity exposing a top-level player window within ten seconds.
 - Multi-monitor `/s` uses Unity's active/default display rather than offering a monitor selector.
-- The lightweight CRT treatment currently provides scanlines; the vignette is limited to the black presentation border rather than a custom shader.
+- The lightweight CRT treatment uses scanlines and simple translucent edge shading rather than a configurable shader-based vignette.
 - This source tree does not include a built Unity player, `.scr`, or other binary output.
 
 ## Troubleshooting

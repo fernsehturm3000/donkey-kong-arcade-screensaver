@@ -9,6 +9,7 @@ namespace CleanRoomArcade.Rendering
         private float remaining;
         private float duration;
         private float magnitude;
+        private float sampleClock;
         private int seed;
         public float GlobalMultiplier { get; set; } = 1f;
 
@@ -26,27 +27,38 @@ namespace CleanRoomArcade.Rendering
             seed++;
         }
 
-        private void LateUpdate()
+        private void LateUpdate() => Advance(Time.unscaledDeltaTime);
+
+        public void Advance(float deltaTime)
         {
             if (target == null) return;
             if (remaining <= 0f)
             {
                 target.localPosition = origin;
+                duration = 0f;
+                magnitude = 0f;
                 return;
             }
-            remaining = Mathf.Max(0f, remaining - Time.unscaledDeltaTime);
+            sampleClock += Mathf.Max(0f, deltaTime);
+            remaining = Mathf.Max(0f, remaining - Mathf.Max(0f, deltaTime));
             var damping = duration <= 0f ? 0f : remaining / duration;
             var strength = magnitude * GlobalMultiplier * damping;
-            var tick = Mathf.FloorToInt(Time.unscaledTime * 60f) + seed * 101;
+            var tick = Mathf.FloorToInt(sampleClock * 60f) + seed * 101;
             var x = Mathf.Round(Mathf.Sin(tick * 12.9898f) * strength);
             var y = Mathf.Round(Mathf.Cos(tick * 78.233f) * strength);
             target.localPosition = origin + new Vector3(x, y, 0f);
-            if (remaining <= 0f) target.localPosition = origin;
+            if (remaining <= 0f)
+            {
+                target.localPosition = origin;
+                duration = 0f;
+                magnitude = 0f;
+            }
         }
 
         public void ResetShake()
         {
             remaining = 0f;
+            duration = 0f;
             magnitude = 0f;
             if (target != null) target.localPosition = origin;
         }

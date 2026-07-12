@@ -1,13 +1,11 @@
 #if UNITY_INCLUDE_TESTS
 using System;
-using System.Collections;
 using CleanRoomArcade.Core;
 using CleanRoomArcade.Data;
 using CleanRoomArcade.Gameplay;
 using CleanRoomArcade.Rendering;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace CleanRoomArcade.Tests
 {
@@ -69,8 +67,8 @@ namespace CleanRoomArcade.Tests
             finally { UnityEngine.Object.DestroyImmediate(gameObject); }
         }
 
-        [UnityTest]
-        public IEnumerator ShakeReturnsExactlyToOrigin()
+        [Test]
+        public void ShakeReturnsExactlyToOrigin()
         {
             var host = new GameObject("Shake Test");
             var camera = new GameObject("Target");
@@ -78,7 +76,7 @@ namespace CleanRoomArcade.Tests
             var shake = host.AddComponent<CameraShakeController>();
             shake.Initialize(camera.transform);
             shake.Impulse(3f, .03f);
-            yield return new WaitForSecondsRealtime(.06f);
+            shake.Advance(.06f);
             Assert.That(camera.transform.localPosition, Is.EqualTo(Vector3.zero));
             UnityEngine.Object.DestroyImmediate(host);
         }

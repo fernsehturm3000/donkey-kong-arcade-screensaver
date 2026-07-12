@@ -33,6 +33,7 @@ namespace CleanRoomArcade.Stages
                 }
             }
             CreateAntagonist();
+            CreateCaptive();
             PixelSpriteFactory.Block("Fire Base", transform, new Vector2(-16, -88), new Vector2(11, 8), PixelPalette.Orange, 5);
             PixelSpriteFactory.Block("Fire Tip", transform, new Vector2(-16, -81), new Vector2(5, 7), PixelPalette.Yellow, 5);
             Player = CreatePlayer(new Vector2(-92, -87));
@@ -91,6 +92,12 @@ namespace CleanRoomArcade.Stages
             var body = PixelSpriteFactory.Block("Foreman Body", transform, new Vector2(-74, 91), new Vector2(25, 19), PixelPalette.Brown, 8);
             PixelSpriteFactory.Block("Foreman Face", body.transform, new Vector2(0, 2), new Vector2(13, 7), PixelPalette.Cream, 9);
             PixelSpriteFactory.Block("Foreman Arm", transform, new Vector2(-91, 91), new Vector2(9, 18), PixelPalette.Brown, 8);
+        }
+
+        private void CreateCaptive()
+        {
+            var body = PixelSpriteFactory.Block("Waiting Climber Body", transform, new Vector2(18, 91), new Vector2(9, 12), PixelPalette.Pink, 8);
+            PixelSpriteFactory.Block("Waiting Climber Head", body.transform, new Vector2(0, 8), new Vector2(7, 7), PixelPalette.Cream, 9);
         }
 
         private void OnRouteCue(int cue)

@@ -46,9 +46,11 @@ namespace CleanRoomArcade.EditorTools
                 CreateNoWindow = true
             };
             using var process = Process.Start(start) ?? throw new InvalidOperationException("Could not start dotnet publish.");
-            var output = process.StandardOutput.ReadToEnd();
-            var error = process.StandardError.ReadToEnd();
+            var outputTask = process.StandardOutput.ReadToEndAsync();
+            var errorTask = process.StandardError.ReadToEndAsync();
             process.WaitForExit();
+            var output = outputTask.Result;
+            var error = errorTask.Result;
             if (process.ExitCode != 0) throw new BuildFailedException($"Wrapper publish failed.\n{output}\n{error}");
             var wrapperExecutable = Path.Combine(wrapperOutput, "DonkeyKongArcadeScreensaver.exe");
             var screensaver = Path.GetFullPath(OutputDirectory + "/DonkeyKongArcadeScreensaver.scr");
