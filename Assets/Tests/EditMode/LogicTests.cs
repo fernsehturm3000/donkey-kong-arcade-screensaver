@@ -4,6 +4,7 @@ using CleanRoomArcade.Core;
 using CleanRoomArcade.Data;
 using CleanRoomArcade.Gameplay;
 using CleanRoomArcade.Rendering;
+using CleanRoomArcade.Stages;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -28,9 +29,11 @@ namespace CleanRoomArcade.Tests
         }
 
         [Test]
-        public void StageOrderIsStable()
+        public void RuntimeSequenceContainsOnlyBarrels()
         {
-            CollectionAssert.AreEqual(new[] { "Barrel Works", "Mixer Line", "Lift Junction", "Fastener Deck" }, StageSequenceController.StageOrder);
+            CollectionAssert.AreEqual(new[] { "Barrel Works" }, StageSequenceController.StageOrder);
+            Assert.That(StageSequenceController.ActiveStageType, Is.EqualTo(typeof(BarrelsStage)));
+            Assert.That(StageSequenceController.EscalatesDifficulty, Is.False);
         }
 
         [Test]

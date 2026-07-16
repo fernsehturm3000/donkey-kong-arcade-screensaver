@@ -12,16 +12,13 @@ This repository contains source only. It includes no ROM data, extracted game as
 
 ## What it does
 
-The player runs an autonomous, deterministic construction-climb show:
+The player runs an autonomous, deterministic Barrels-stage show:
 
-1. animated climb-report intermission;
-2. Barrel Works (sloped girders, ladders, rolling and falling hazards);
-3. Mixer Line (reversing conveyors and moving trays);
-4. Lift Junction (independent elevators and spring hazards);
-5. Fastener Deck (removable fasteners, patrols, and a collapse finale);
-6. shift-complete transition, modest speed/spawn escalation, then repeat.
+1. Barrel Works starts immediately with sloped girders, ladders, and rolling and falling hazards;
+2. the autonomous player completes its climb, or the bounded route timer expires;
+3. the complete Barrels stage object tree is destroyed and a fresh Barrels stage starts on the next frame.
 
-There is no player input. Every route has a bounded timeout and one clean restart attempt, and every state destroys its object tree before the next state starts. A developer setting shortens transitions and stage timeouts for loop testing.
+There is no player input and the runtime never advances to Mixer Line, Lift Junction, or Fastener Deck. Difficulty remains stable between repetitions. Every route has a bounded timeout and one clean restart attempt, and every completed stage destroys its object tree before the next stage instance starts. The unused stage source files remain in the repository for possible future use but are not referenced or instantiated by the runtime sequence. A developer setting shortens stage timeouts for loop testing.
 
 ## Repository layout
 
@@ -40,9 +37,9 @@ There is no player input. Every route has a bounded timeout and one clean restar
 3. Optionally run **Construction Climb → Validate Project Setup**. It is idempotent and repairs the Boot scene build entry without creating scene objects.
 4. Press Play. With no screensaver argument, the autonomous loop runs in an editor window.
 
-For a quick full-loop check, run the wrapper with `/c` and enable **Short stages**, or edit `%LOCALAPPDATA%\CleanRoomArcadeScreensaver\settings.json` and set `"shortStageMode": true`. The setting changes stage timeouts and intermission/finale delays; route motion remains visible.
+For a quick restart-loop check, run the wrapper with `/c` and enable **Short stages**, or edit `%LOCALAPPDATA%\CleanRoomArcadeScreensaver\settings.json` and set `"shortStageMode": true`. The setting shortens the Barrels stage timeout and completion delay; route motion remains visible.
 
-Run EditMode tests from **Window → General → Test Runner**. Select **EditMode**, then **Run All**.
+Run tests from **Window → General → Test Runner**. Run both **EditMode** and **PlayMode** suites; the latter verifies that restarting the sequence replaces its Barrels object tree without leaving a duplicate behind.
 
 ## Build the Windows player
 
