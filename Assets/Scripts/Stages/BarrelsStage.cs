@@ -17,8 +17,8 @@ namespace CleanRoomArcade.Stages
         private SpriteRenderer foremanRenderer;
         private Sprite[] fireFrames;
         private Sprite[] foremanFrames;
-        private TextMesh scoreLabel;
-        private TextMesh bonusLabel;
+        private PixelText scoreLabel;
+        private PixelText bonusLabel;
         private float spawnClock = .8f;
         private float stompClock = 2.5f;
         private float animationClock;

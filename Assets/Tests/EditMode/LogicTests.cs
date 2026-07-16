@@ -5,6 +5,7 @@ using CleanRoomArcade.Data;
 using CleanRoomArcade.Gameplay;
 using CleanRoomArcade.Rendering;
 using CleanRoomArcade.Stages;
+using CleanRoomArcade.UI;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -83,6 +84,23 @@ namespace CleanRoomArcade.Tests
                 Assert.That((Vector2)gameObject.transform.localPosition, Is.EqualTo(Vector2.one));
             }
             finally { UnityEngine.Object.DestroyImmediate(gameObject); }
+        }
+
+        [Test]
+        public void ArcadeHudBuildsCompactReusablePixelText()
+        {
+            var host = new GameObject("Pixel Text Test");
+            try
+            {
+                var label = ArcadeHud.Label(host.transform, "Label", "BARREL WORKS", Vector2.zero, 6);
+                var renderer = label.GetComponent<SpriteRenderer>();
+                Assert.That(renderer.sprite.rect.width, Is.LessThan(64f));
+                Assert.That(renderer.sprite.rect.height, Is.EqualTo(5f));
+                var originalSprite = renderer.sprite;
+                label.text = "BONUS 5000!!";
+                Assert.That(renderer.sprite, Is.SameAs(originalSprite));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(host); }
         }
 
         [Test]
