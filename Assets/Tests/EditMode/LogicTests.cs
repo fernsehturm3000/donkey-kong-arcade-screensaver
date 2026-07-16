@@ -71,6 +71,21 @@ namespace CleanRoomArcade.Tests
         }
 
         [Test]
+        public void RollingHazardTraversesEveryGirderSegmentAndCompletes()
+        {
+            var gameObject = new GameObject("Rolling Hazard Test");
+            try
+            {
+                var hazard = gameObject.AddComponent<RollingHazard>();
+                hazard.Initialize(new[] { Vector2.zero, Vector2.right, Vector2.one }, 10f);
+                hazard.Step(1f);
+                Assert.That(hazard.IsComplete, Is.True);
+                Assert.That((Vector2)gameObject.transform.localPosition, Is.EqualTo(Vector2.one));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(gameObject); }
+        }
+
+        [Test]
         public void ShakeReturnsExactlyToOrigin()
         {
             var host = new GameObject("Shake Test");
