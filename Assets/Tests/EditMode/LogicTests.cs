@@ -4,6 +4,8 @@ using CleanRoomArcade.Core;
 using CleanRoomArcade.Data;
 using CleanRoomArcade.Gameplay;
 using CleanRoomArcade.Rendering;
+using CleanRoomArcade.Stages;
+using CleanRoomArcade.UI;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -28,9 +30,11 @@ namespace CleanRoomArcade.Tests
         }
 
         [Test]
-        public void StageOrderIsStable()
+        public void RuntimeSequenceContainsOnlyBarrels()
         {
-            CollectionAssert.AreEqual(new[] { "Barrel Works", "Mixer Line", "Lift Junction", "Fastener Deck" }, StageSequenceController.StageOrder);
+            CollectionAssert.AreEqual(new[] { "Barrel Works" }, StageSequenceController.StageOrder);
+            Assert.That(StageSequenceController.ActiveStageType, Is.EqualTo(typeof(BarrelsStage)));
+            Assert.That(StageSequenceController.EscalatesDifficulty, Is.False);
         }
 
         [Test]
@@ -65,6 +69,38 @@ namespace CleanRoomArcade.Tests
                 Assert.That(gameObject.transform.localPosition, Is.EqualTo(Vector3.zero));
             }
             finally { UnityEngine.Object.DestroyImmediate(gameObject); }
+        }
+
+        [Test]
+        public void RollingHazardTraversesEveryGirderSegmentAndCompletes()
+        {
+            var gameObject = new GameObject("Rolling Hazard Test");
+            try
+            {
+                var hazard = gameObject.AddComponent<RollingHazard>();
+                hazard.Initialize(new[] { Vector2.zero, Vector2.right, Vector2.one }, 10f);
+                hazard.Step(1f);
+                Assert.That(hazard.IsComplete, Is.True);
+                Assert.That((Vector2)gameObject.transform.localPosition, Is.EqualTo(Vector2.one));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(gameObject); }
+        }
+
+        [Test]
+        public void ArcadeHudBuildsCompactReusablePixelText()
+        {
+            var host = new GameObject("Pixel Text Test");
+            try
+            {
+                var label = ArcadeHud.Label(host.transform, "Label", "BARREL WORKS", Vector2.zero, 6);
+                var renderer = label.GetComponent<SpriteRenderer>();
+                Assert.That(renderer.sprite.rect.width, Is.LessThan(64f));
+                Assert.That(renderer.sprite.rect.height, Is.EqualTo(5f));
+                var originalSprite = renderer.sprite;
+                label.text = "BONUS 5000!!";
+                Assert.That(renderer.sprite, Is.SameAs(originalSprite));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(host); }
         }
 
         [Test]

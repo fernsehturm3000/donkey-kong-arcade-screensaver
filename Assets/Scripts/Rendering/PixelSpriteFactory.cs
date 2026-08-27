@@ -48,6 +48,17 @@ namespace CleanRoomArcade.Rendering
             return item;
         }
 
+        public static SpriteRenderer SpriteObject(string name, Transform parent, Vector2 position, Sprite sprite, int order = 0)
+        {
+            var item = new GameObject(name);
+            item.transform.SetParent(parent, false);
+            item.transform.localPosition = position;
+            var renderer = item.AddComponent<SpriteRenderer>();
+            renderer.sprite = sprite;
+            renderer.sortingOrder = order;
+            return renderer;
+        }
+
         private static Sprite SolidSprite()
         {
             return FromMatrix("solid-pixel", new[,] { { 0 } }, new[] { PixelPalette.White });

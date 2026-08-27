@@ -39,6 +39,15 @@ namespace CleanRoomArcade.Rendering
             WorldCamera.nearClipPlane = .1f;
             WorldCamera.farClipPlane = 100f;
 
+            var presentationCameraObject = new GameObject("Presentation Camera");
+            presentationCameraObject.transform.SetParent(transform, false);
+            var presentationCamera = presentationCameraObject.AddComponent<Camera>();
+            presentationCamera.clearFlags = CameraClearFlags.SolidColor;
+            presentationCamera.backgroundColor = Color.black;
+            presentationCamera.cullingMask = 0;
+            presentationCamera.depth = -100f;
+            presentationCamera.orthographic = true;
+
             var canvasObject = new GameObject("Integer Scaled Display");
             canvasObject.transform.SetParent(transform, false);
             var canvas = canvasObject.AddComponent<Canvas>();

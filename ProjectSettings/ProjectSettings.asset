@@ -23,3 +23,4 @@ PlayerSettings:
   targetArchitectures: 1
   applicationIdentifier:
     Standalone: com.cleanroomarcade.dk-screensaver
+  activeInputHandler: 0

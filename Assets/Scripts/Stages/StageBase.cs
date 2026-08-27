@@ -55,14 +55,48 @@ namespace CleanRoomArcade.Stages
             playerObject.transform.SetParent(transform, false);
             playerObject.transform.localPosition = position;
             var renderer = playerObject.AddComponent<SpriteRenderer>();
-            renderer.sprite = PixelSpriteFactory.FromMatrix("player", new[,]
+            var palette = new[] { PixelPalette.Cream, PixelPalette.Red, PixelPalette.Blue, PixelPalette.DarkBlue, PixelPalette.Brown };
+            var walkA = PixelSpriteFactory.FromMatrix("climber-walk-a", new[,]
             {
-                { -1, 1, 1, 1, 1, -1 }, { -1, 1, 0, 0, 1, -1 }, { -1, 2, 2, 2, 2, -1 },
-                { 2, 2, 1, 1, 2, 2 }, { -1, 1, 1, 1, 1, -1 }, { -1, 1, -1, -1, 1, -1 },
-                { 3, 3, -1, -1, 3, 3 }, { 3, -1, -1, -1, -1, 3 }
-            }, new[] { PixelPalette.Cream, PixelPalette.Red, PixelPalette.Blue, PixelPalette.Yellow });
+                { -1,-1,1,1,1,1,1,-1,-1,-1 }, { -1,1,1,1,1,1,1,1,-1,-1 },
+                { -1,4,4,0,0,0,4,4,-1,-1 }, { -1,4,0,4,0,4,0,4,-1,-1 },
+                { -1,-1,4,4,4,4,4,-1,-1,-1 }, { -1,1,1,2,2,2,1,1,-1,-1 },
+                { 1,1,1,2,2,2,1,1,1,-1 }, { -1,0,1,2,2,2,1,0,-1,-1 },
+                { -1,-1,2,2,2,2,2,-1,-1,-1 }, { -1,-1,2,2,-1,2,2,-1,-1,-1 },
+                { -1,3,3,-1,-1,-1,3,3,-1,-1 }, { 3,3,3,-1,-1,-1,-1,3,3,-1 }
+            }, palette);
+            var walkB = PixelSpriteFactory.FromMatrix("climber-walk-b", new[,]
+            {
+                { -1,-1,1,1,1,1,1,-1,-1,-1 }, { -1,1,1,1,1,1,1,1,-1,-1 },
+                { -1,4,4,0,0,0,4,4,-1,-1 }, { -1,4,0,4,0,4,0,4,-1,-1 },
+                { -1,-1,4,4,4,4,4,-1,-1,-1 }, { -1,1,1,2,2,2,1,1,-1,-1 },
+                { -1,1,1,2,2,2,1,1,-1,-1 }, { -1,-1,1,2,2,2,1,-1,-1,-1 },
+                { -1,-1,2,2,2,2,2,-1,-1,-1 }, { -1,2,2,-1,-1,2,2,-1,-1,-1 },
+                { 3,3,-1,-1,-1,-1,3,3,3,-1 }, { 3,-1,-1,-1,-1,-1,-1,-1,3,3 }
+            }, palette);
+            var climbA = PixelSpriteFactory.FromMatrix("climber-climb-a", new[,]
+            {
+                { -1,-1,1,1,1,1,1,-1,-1,-1 }, { -1,1,1,1,1,1,1,1,-1,-1 },
+                { -1,4,4,0,0,0,4,4,-1,-1 }, { -1,-1,4,4,4,4,4,-1,-1,-1 },
+                { 0,0,1,2,2,2,1,-1,-1,-1 }, { -1,-1,1,2,2,2,1,0,0,-1 },
+                { -1,-1,2,2,2,2,2,-1,-1,-1 }, { -1,-1,2,2,2,2,2,-1,-1,-1 },
+                { -1,3,3,-1,-1,3,3,-1,-1,-1 }, { -1,3,3,-1,-1,3,3,-1,-1,-1 },
+                { -1,3,-1,-1,-1,-1,3,-1,-1,-1 }, { 3,3,-1,-1,-1,-1,3,3,-1,-1 }
+            }, palette);
+            var climbB = PixelSpriteFactory.FromMatrix("climber-climb-b", new[,]
+            {
+                { -1,-1,1,1,1,1,1,-1,-1,-1 }, { -1,1,1,1,1,1,1,1,-1,-1 },
+                { -1,4,4,0,0,0,4,4,-1,-1 }, { -1,-1,4,4,4,4,4,-1,-1,-1 },
+                { -1,-1,1,2,2,2,1,0,0,-1 }, { 0,0,1,2,2,2,1,-1,-1,-1 },
+                { -1,-1,2,2,2,2,2,-1,-1,-1 }, { -1,-1,2,2,2,2,2,-1,-1,-1 },
+                { 3,3,-1,-1,-1,-1,3,-1,-1,-1 }, { -1,3,3,-1,-1,3,3,-1,-1,-1 },
+                { -1,3,-1,-1,-1,-1,3,3,-1,-1 }, { -1,3,3,-1,-1,-1,3,-1,-1,-1 }
+            }, palette);
+            renderer.sprite = walkA;
             renderer.sortingOrder = 20;
-            return playerObject.AddComponent<AutoplayerController>();
+            var controller = playerObject.AddComponent<AutoplayerController>();
+            controller.ConfigureVisual(renderer, new[] { walkA, walkB }, new[] { climbA, climbB });
+            return controller;
         }
     }
 }
